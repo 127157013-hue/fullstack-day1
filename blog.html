@@ -36,9 +36,35 @@
                 <a href="#" class="btn-secondary">Read More</a>
             </div>
         </div>
+        <section class="add-blog-container">
+            <h2>Add a New Blog Post</h2>
+            <form id="blogForm">
+                <div class="form-group">
+                <label for="title" >Blog Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter Blog Title">
+                <span class="error-msg" id="titleError"></span>
+                <textarea id="content" name="content" placeholder="Enter Blog Content"></textarea>
+                <span class="error-msg" id="contentError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author Name</label>
+                    <input type="text" id="author" name="author" placeholder="Enter Your Name">
+                    <span class="error-msg" id="authorError"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Submit Blog Post</button> 
+                    <label for="content">Blog Content</label>
+                    <textarea id="content" name="content" rows="5" placeholder="Write Your Blog Content"></textarea>
+                    <span class="error-msg" id="contentError"></span>
+                </div>
+                <button type="submit" class="btn-primary">Submit Post</button>
+            </form>
+            <p id="successMsg" class="success-msg"></p>
+        </section>
     </main>
 <footer>
     <p>&copy; 2026 MyBrand. All rights reserved.</p>
 </footer>
+<script src="script.js"></script>
 </body>
 </html>

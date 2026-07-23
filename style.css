@@ -138,3 +138,53 @@ footer {
     gap: 1rem;
   }
 }
+.add-blog-section {
+  max-width:600px;
+  margin:3rem auto;
+  padding:2rem;
+  background-color:#ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.add-blog-section h2 {
+  margin-bottom: 1.2rem;
+  color: #1f2937;
+  text-align: center;
+}
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #374151;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+.error-msg {
+  display: block;
+  color: #e11d48;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  min-height: 1rem;
+}
+.success-msg {
+  text-align: center;
+  color: #16a34a;
+  font-weight: 600;
+  margin-top: 1rem;
+}
