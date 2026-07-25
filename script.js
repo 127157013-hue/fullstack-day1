@@ -113,3 +113,35 @@ async function loadBlogsOnHome() {
     container.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
   }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const homeContainer = document.getElementById('homeBlogContainer');
+  if (homeContainer) {
+    loadBlogsOnHome();
+  }
+});
+async function loadBlogsOnHome() {
+  const container = document.getElementById('homeBlogContainer');
+  try {
+    const response = await fetch('/api/blogs');
+    const blogs = await response.json();
+    if (blogs.length === 0) {
+      container.innerHTML = '<p>No blog posts yet. Be the first to add one!</p>';
+      return;
+    }
+    container.innerHTML = '';
+    blogs.forEach(blog => {
+      const card = document.createElement('div');
+      card.className = 'blog-card';
+      card.innerHTML = `
+        <h3>${blog.title}</h3>
+        <p><strong>By:</strong> ${blog.author}</p>
+        <p>${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
+        <a href="blog.html" class="btn-secondary">Read More</a>
+      `;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error('Error loading blogs:', err);
+    container.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
+  }
+}
