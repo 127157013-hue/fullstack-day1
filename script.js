@@ -89,14 +89,18 @@ function addBlogCard(title, author, content) {
 }
 async function loadBlogsOnHome() {
   const container = document.getElementById('homeBlogContainer');
+
   try {
     const response = await fetch('/api/blogs');
     const blogs = await response.json();
+
     if (blogs.length === 0) {
       container.innerHTML = '<p>No blog posts yet. Be the first to add one!</p>';
       return;
     }
+
     container.innerHTML = '';
+
     blogs.forEach(blog => {
       const card = document.createElement('div');
       card.className = 'blog-card';
@@ -104,13 +108,43 @@ async function loadBlogsOnHome() {
         <h3>${blog.title}</h3>
         <p><strong>By:</strong> ${blog.author}</p>
         <p>${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
-        <a href="blog.html" class="btn-secondary">Read More</a>
+        <div class="card-actions">
+          <button class="btn-edit" onclick="editBlog(${blog.id})">Edit</button>
+          <button class="btn-delete" onclick="deleteBlog(${blog.id})">Delete</button>
+        </div>
       `;
       container.appendChild(card);
     });
   } catch (err) {
     console.error('Error loading blogs:', err);
     container.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
+  }
+}
+async function editBlog(id) {
+  try {
+    const response = await fetch(`/api/blogs/${id}`);
+    const blog = await response.json();
+    const newTitle = prompt('Edit title:', blog.title);
+    if (newTitle === null) return;
+    const newAuthor = prompt('Edit author:', blog.author);
+    if (newAuthor === null) return;
+    const newContent = prompt('Edit content:', blog.content);
+    if (newContent === null) return;
+    const updateResponse = await fetch(`/api/blogs/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: newTitle, author: newAuthor, content: newContent })
+    });
+    if (updateResponse.ok) {
+      alert('Blog post updated successfully!');
+      loadBlogsOnHome();
+    } else {
+      const result = await updateResponse.json();
+      alert(result.message || 'Update failed');
+    }
+  } catch (err) {
+    console.error('Error updating blog:', err);
+    alert('Could not update blog post.');
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
