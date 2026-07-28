@@ -178,4 +178,21 @@ async function loadBlogsOnHome() {
     console.error('Error loading blogs:', err);
     container.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
   }
+async function deleteBlog(id) {
+  const confirmDelete = confirm('Are you sure you want to delete this blog post?');
+  if (!confirmDelete) return;
+  try {
+    const response = await fetch(`/api/blogs/${id}`, { method: 'DELETE' });
+    if (response.ok) {
+      alert('Blog post deleted successfully!');
+      loadBlogsOnHome();
+    } else {
+      const result = await response.json();
+      alert(result.message || 'Delete failed');
+    }
+  } catch (err) {
+    console.error('Error deleting blog:', err);
+    alert('Could not delete blog post.');
+  }
+}
 }

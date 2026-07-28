@@ -50,6 +50,15 @@ app.put('/api/blogs/:id', (req, res) => {
   blog.content = content;
   res.json({ message: 'Blog post updated successfully', blog });
 });
+app.delete('/api/blogs/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = blogPosts.findIndex(b => b.id === id);
+  if (index === -1) {
+    return res.status(404).json({ message: 'Blog post not found' });
+  }
+  blogPosts.splice(index, 1);
+  res.json({ message: 'Blog post deleted successfully' });
+});
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
