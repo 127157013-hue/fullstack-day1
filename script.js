@@ -1,3 +1,8 @@
+const sampleBlogs = [
+  { id: 1, title: 'Getting Started with Full-Stack Development', author: 'Admin', content: 'A beginner-friendly guide to understanding the full-stack development workflow.' },
+  { id: 2, title: 'Why Express.js is Great for Beginners', author: 'Admin', content: 'Exploring how Express simplifies building backend servers with Node.js.' }
+];
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('blogForm');
   if (form) {
@@ -100,6 +105,25 @@ function addBlogCard(title, author, content) {
   container.appendChild(card);
 }
 
+// Renders an array of blog objects into the given container
+function renderBlogCards(blogs, container) {
+  container.innerHTML = '';
+  blogs.forEach(blog => {
+    const card = document.createElement('div');
+    card.className = 'blog-card';
+    card.innerHTML = `
+      <h3>${blog.title}</h3>
+      <p><strong>By:</strong> ${blog.author}</p>
+      <p>${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
+      <div class="card-actions">
+        <button class="btn-edit" onclick="editBlog(${blog.id})">Edit</button>
+        <button class="btn-delete" onclick="deleteBlog(${blog.id})">Delete</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
 async function loadBlogsOnHome() {
   const container = document.getElementById('homeBlogContainer');
 
@@ -112,24 +136,10 @@ async function loadBlogsOnHome() {
       return;
     }
 
-    container.innerHTML = '';
-    blogs.forEach(blog => {
-      const card = document.createElement('div');
-      card.className = 'blog-card';
-      card.innerHTML = `
-        <h3>${blog.title}</h3>
-        <p><strong>By:</strong> ${blog.author}</p>
-        <p>${blog.content.substring(0, 100)}${blog.content.length > 100 ? '...' : ''}</p>
-        <div class="card-actions">
-          <button class="btn-edit" onclick="editBlog(${blog.id})">Edit</button>
-          <button class="btn-delete" onclick="deleteBlog(${blog.id})">Delete</button>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+    renderBlogCards(blogs, container);
   } catch (err) {
-    console.error('Error loading blogs:', err);
-    container.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
+    console.error('Error loading blogs, showing sample data:', err);
+    renderBlogCards(sampleBlogs, container);
   }
 }
 
